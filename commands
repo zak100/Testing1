@@ -1,0 +1,70 @@
+On a terminal
+$ ./ganache-2.4.0-linux-x86_64.AppImage
+23:16:37.996 › Checking for update
+23:16:39.782 › Found version 2.5.4 (url: ganache-2.5.4-linux-x86_64.AppImage)
+listen to truffle
+
+
+start another terminal for starting truffle console
+
+$ cd 'Truffle programs'
+@lc2530hz:~/Truffle programs$ cd justdev2
+lc2530hz:~/Truffle programs/justdev2$ 
+
+s$ cd justdev2
+zulfi@lc2530hz:~/Truffle programs/justdev2$ truffle console
+Could not find suitable configuration file.
+Truffle v5.1.43 (core: 5.1.43)
+Node v10.22.0
+zulfi@lc2530hz:~/Truffle programs/justdev2$ cd reentrancy
+zulfi@lc2530hz:~/Truffle programs/justdev2/reentrancy$ truffle console
+
+1) truffle(development)> accounts = await web3.eth.getAccounts()
+2) truffle(development)> accounts
+[ '0x2b8fd9FCaf60A5b1cea3806B14722f25D0EBDFf8',
+  '0x466ebB5718b12573bdAF2a9fe35B7358bb28a0AE',
+  10 accounts displayed
+3)truffle(development)> acc1 = accounts[0]
+'0x2b8fd9FCaf60A5b1cea3806B14722f25D0EBDFf8'
+4)truffle(development)> balance1 = await web3.eth.getBalance(acc1)
+undefined
+5)truffle(development)> web3.utils.fromWei(balance1, "ether")
+'88.99915744'
+6)truffle(development)> Victim.deployed().then(contract=>victim = contract); "testing"
+'testing'
+7)truffle(development)> balance2 = await web3.eth.getBalance(victim.address)
+undefined
+8)truffle(development)> web3.utils.fromWei(balance2, "ether")
+'11'
+9)truffle(development)> options = { from: acc1, to : victim.address, value: web3.utils.toWei('11', 'ether')}
+{ from: '0x2b8fd9FCaf60A5b1cea3806B14722f25D0EBDFf8',
+  to: '0xB5b35A50962598682B09c5d13DcCe6db2017F7b6',
+  value: '11000000000000000000' }
+10)truffle(development)> victim.deposit.sendTransaction(options)
+{ tx:
+   '0x70b65c01a06fbd270d558ead395bedde73bd877421f51037ed3f7d795ddcd148',
+  receipt:
+
+11)truffle(development)> balance2 = await web3.eth.getBalance(victim.address)
+12)truffle(development)> web3.utils.fromWei(balance2, "ether")
+'22'
+13)truffle(development)> balance1 = await web3.eth.getBalance(acc1)
+undefined
+14)truffle(development)> web3.utils.fromWei(balance1, "ether")
+'77.99873616'
+15)truffle(development)> Attacker.deployed().then(contract => attacker = contract); "Testing Attacker"
+'Testing Attacker'
+16)truffle(development)> balance3 = await web3.eth.getBalance(attacker.address)
+undefined
+17)truffle(development)> web3.utils.fromWei(balance3, "ether")
+'0'
+18)truffle(development)> attacker.attack()
+{ tx:
+19)truffle(development)> balance3 = await web3.eth.getBalance(attacker.address)
+undefined
+20)truffle(development)> web3.utils.fromWei(balance3, "ether")
+'0' (still Zero)
+21)truffle(development)> balance2 = await web3.eth.getBalance(victim.address)
+undefined
+22)truffle(development)> web3.utils.fromWei(balance2, "ether")
+'22' (no change in victim’s amount, still same as before attack
